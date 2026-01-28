@@ -9,8 +9,13 @@ import { createClient } from "@supabase/supabase-js";
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
+// 디버깅용 로그
+console.log("=== Supabase 설정 확인 ===");
+console.log("SUPABASE_URL 설정됨:", !!supabaseUrl);
+console.log("SUPABASE_ANON_KEY 설정됨:", !!supabaseAnonKey);
+
 if (!supabaseUrl || !supabaseAnonKey) {
-  console.warn("Supabase 환경 변수가 설정되지 않았습니다.");
+  console.warn("⚠️ Supabase 환경 변수가 설정되지 않았습니다.");
 }
 
 export const supabase = createClient(
@@ -35,24 +40,31 @@ export async function saveSearchHistory(
   keyword: string,
   resultCount: number
 ): Promise<void> {
+  console.log("=== saveSearchHistory 호출됨 ===");
+  console.log("키워드:", keyword);
+  console.log("결과 수:", resultCount);
+  
   if (!supabaseUrl || !supabaseAnonKey) {
-    console.warn("Supabase가 설정되지 않아 검색 기록을 저장하지 않습니다.");
+    console.warn("⚠️ Supabase가 설정되지 않아 검색 기록을 저장하지 않습니다.");
     return;
   }
 
   try {
-    const { error } = await supabase.from("search_history").insert({
+    console.log("Supabase에 저장 시도 중...");
+    const { data, error } = await supabase.from("search_history").insert({
       keyword: keyword.trim(),
       result_count: resultCount,
-    });
+    }).select();
 
     if (error) {
-      console.error("검색 기록 저장 실패:", error.message);
+      console.error("❌ 검색 기록 저장 실패:", error.message);
+      console.error("에러 상세:", error);
     } else {
-      console.log("검색 기록 저장 완료:", keyword);
+      console.log("✅ 검색 기록 저장 완료:", keyword);
+      console.log("저장된 데이터:", data);
     }
   } catch (error) {
-    console.error("검색 기록 저장 중 오류:", error);
+    console.error("❌ 검색 기록 저장 중 오류:", error);
   }
 }
 
