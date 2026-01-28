@@ -10,9 +10,10 @@ export interface SummaryResult {
  * 뉴스 요약 함수
  * Google Gemini API를 사용하여 뉴스 기사를 요약합니다.
  * 
+ * ⚠️ 내부 함수입니다. export하지 않습니다.
  * ⚠️ 서버 사이드에서만 실행됩니다 (app/api/* 라우트)
  */
-export async function summarizeNews(
+async function summarizeNews(
   title: string,
   description: string
 ): Promise<SummaryResult> {

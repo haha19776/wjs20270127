@@ -10,8 +10,10 @@ export interface NewsItem {
 /**
  * 뉴스 검색 API (더미 데이터)
  * 실제로는 뉴스 API를 호출하도록 구현 예정
+ * 
+ * ⚠️ 내부 함수입니다. export하지 않습니다.
  */
-export async function searchNews(query: string): Promise<NewsItem[]> {
+async function searchNews(query: string): Promise<NewsItem[]> {
   // 실제 구현 시: 뉴스 API 호출
   // 예: NewsAPI, Naver News API, Google News RSS 등
   
