@@ -2,9 +2,8 @@
 
 ## 새 API 키
 
-```
-AIzaSyCErZL3fnk5J8s2Sk_LRD3wwj0cTAemu40
-```
+⚠️ **보안**: 실제 API 키는 이 문서에 포함하지 않습니다.
+Vercel 대시보드에서 직접 입력하세요.
 
 ## Vercel 환경 변수 업데이트 (필수!)
 
@@ -17,10 +16,7 @@ AIzaSyCErZL3fnk5J8s2Sk_LRD3wwj0cTAemu40
 2. 왼쪽 사이드바에서 **Environment Variables** 클릭
 3. `GEMINI_API_KEY` 찾기
 4. **Edit** 또는 **...** 메뉴 클릭
-5. **Value** 필드에 다음 키 입력:
-   ```
-   AIzaSyCErZL3fnk5J8s2Sk_LRD3wwj0cTAemu40
-   ```
+5. **Value** 필드에 실제 API 키 입력 (Google AI Studio에서 생성한 키)
 6. **Environment**: Production, Preview, Development 모두 체크 확인
 7. **Save** 클릭
 
@@ -57,7 +53,7 @@ npm run dev
 
 - [x] 로컬 `.env.local` 파일 업데이트 완료
 - [ ] Vercel → Settings → Environment Variables
-- [ ] `GEMINI_API_KEY` 값 업데이트: `AIzaSyCErZL3fnk5J8s2Sk_LRD3wwj0cTAemu40`
+- [ ] `GEMINI_API_KEY` 값 업데이트 (실제 API 키 입력)
 - [ ] Production, Preview, Development 모두 체크 확인
 - [ ] Save 클릭
 - [ ] Deployments → Redeploy 실행

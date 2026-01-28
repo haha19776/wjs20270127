@@ -4,7 +4,9 @@ Write-Host "========================================" -ForegroundColor Cyan
 Write-Host "Vercel 환경 변수 업데이트" -ForegroundColor Cyan
 Write-Host "========================================`n" -ForegroundColor Cyan
 
-$apiKey = "AIzaSyCErZL3fnk5J8s2Sk_LRD3wwj0cTAemu40"
+# ⚠️ 보안: 실제 API 키는 이 스크립트에 포함하지 마세요!
+# Vercel 대시보드에서 직접 입력하거나, 환경 변수로 설정하세요.
+$apiKey = "YOUR_GEMINI_API_KEY_HERE"
 
 # Vercel CLI 확인
 Write-Host "Vercel CLI 확인 중..." -ForegroundColor Yellow
