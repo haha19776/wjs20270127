@@ -1,0 +1,14 @@
+GitHub 웹사이트에서 업로드할 파일 목록
+========================================
+
+1. api/index.py (수정 필요)
+   - GitHub에서 기존 파일 클릭
+   - 편집 버튼(✏️) 클릭
+   - 파일 내용 교체
+
+2. app.py (수정 필요)
+   - GitHub에서 기존 파일 클릭
+   - 편집 버튼(✏️) 클릭
+   - 파일 내용 교체
+
+커밋 메시지: Fix: Critical Vercel function invocation error
