@@ -51,22 +51,36 @@ export async function saveSearchHistory(
   console.log("키워드:", keyword);
   console.log("결과 수:", resultCount);
   
-  if (!supabase) {
-    console.warn("⚠️ Supabase 클라이언트가 초기화되지 않아 검색 기록을 저장하지 않습니다.");
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  
+  if (!url || !key) {
+    console.warn("⚠️ Supabase 환경 변수가 없어 검색 기록을 저장하지 않습니다.");
     return;
   }
 
   try {
-    console.log("Supabase에 저장 시도 중...");
-    const { data, error } = await supabase.from("search_history").insert({
-      keyword: keyword.trim(),
-      result_count: resultCount,
-    }).select();
+    console.log("Supabase REST API로 저장 시도 중...");
+    
+    const response = await fetch(`${url}/rest/v1/search_history`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "apikey": key,
+        "Authorization": `Bearer ${key}`,
+        "Prefer": "return=representation"
+      },
+      body: JSON.stringify({
+        keyword: keyword.trim(),
+        result_count: resultCount,
+      }),
+    });
 
-    if (error) {
-      console.error("❌ 검색 기록 저장 실패:", error.message);
-      console.error("에러 상세:", error);
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("❌ 검색 기록 저장 실패:", response.status, errorText);
     } else {
+      const data = await response.json();
       console.log("✅ 검색 기록 저장 완료:", keyword);
       console.log("저장된 데이터:", data);
     }
