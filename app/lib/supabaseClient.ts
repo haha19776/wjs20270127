@@ -78,6 +78,7 @@ export async function saveSearchHistory(
       body: JSON.stringify({
         keyword: keyword.trim(),
         result_count: resultCount,
+        searched_at: new Date().toISOString(),
       }),
     });
 
