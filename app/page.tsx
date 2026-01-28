@@ -151,16 +151,13 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+    <main className="min-h-screen bg-black">
       <div className="container mx-auto px-4 py-4 md:py-8 max-w-7xl h-screen flex flex-col">
         {/* 상단: 헤더 */}
         <header className="text-center mb-4 md:mb-6 flex-shrink-0">
-          <h1 className="text-2xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
-            📰 wjs20270127
+          <h1 className="text-2xl md:text-4xl font-bold text-white mb-2">
+            📰 뉴스 검색 및 AI 요약 서비스
           </h1>
-          <p className="text-sm md:text-base text-gray-600 dark:text-gray-300">
-            뉴스 검색 및 AI 요약 서비스
-          </p>
         </header>
 
         {/* 검색 바 */}

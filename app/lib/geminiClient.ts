@@ -74,12 +74,14 @@ ${text}`;
       console.error(`${modelName} 모델 실패:`, error);
       lastError = error instanceof Error ? error : new Error(String(error));
       
-      // API 키 만료 또는 무효 오류인 경우 즉시 중단
+      // API 키 만료, 무효, 또는 leaked 오류인 경우 즉시 중단
       const errorMessage = error instanceof Error ? error.message : String(error);
       if (errorMessage.includes('API key expired') || 
           errorMessage.includes('API_KEY_INVALID') ||
-          errorMessage.includes('API key not valid')) {
-        throw new Error('API 키가 만료되었거나 유효하지 않습니다. Vercel 환경 변수에서 GEMINI_API_KEY를 확인하고 새 API 키로 업데이트하세요.');
+          errorMessage.includes('API key not valid') ||
+          errorMessage.includes('reported as leaked') ||
+          errorMessage.includes('403 Forbidden')) {
+        throw new Error('API 키가 만료되었거나 유효하지 않습니다. Google AI Studio에서 새 API 키를 생성하고 Vercel 환경 변수에서 GEMINI_API_KEY를 업데이트하세요.');
       }
       
       // 다음 모델 시도
