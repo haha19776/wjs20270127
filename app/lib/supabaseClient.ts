@@ -51,25 +51,30 @@ export async function saveSearchHistory(
   console.log("키워드:", keyword);
   console.log("결과 수:", resultCount);
   
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const url = (process.env.NEXT_PUBLIC_SUPABASE_URL || "").trim();
+  const key = (process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "").trim();
   
-  if (!url || !key) {
-    console.warn("⚠️ Supabase 환경 변수가 없어 검색 기록을 저장하지 않습니다.");
+  console.log("URL 길이:", url.length);
+  console.log("Key 길이:", key.length);
+  
+  if (!url || !key || url.length < 10 || key.length < 10) {
+    console.warn("⚠️ Supabase 환경 변수가 없거나 유효하지 않습니다.");
     return;
   }
 
   try {
     console.log("Supabase REST API로 저장 시도 중...");
+    console.log("요청 URL:", `${url}/rest/v1/search_history`);
+    
+    const headers = new Headers();
+    headers.set("Content-Type", "application/json");
+    headers.set("apikey", key);
+    headers.set("Authorization", "Bearer " + key);
+    headers.set("Prefer", "return=representation");
     
     const response = await fetch(`${url}/rest/v1/search_history`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "apikey": key,
-        "Authorization": `Bearer ${key}`,
-        "Prefer": "return=representation"
-      },
+      headers: headers,
       body: JSON.stringify({
         keyword: keyword.trim(),
         result_count: resultCount,
