@@ -27,9 +27,18 @@ export async function searchNews(query: string): Promise<Article[]> {
   }
 
   try {
-    const response = await fetch(
-      `/api/search-news?query=${encodeURIComponent(query.trim())}`
-    );
+    const url = `/api/search-news?query=${encodeURIComponent(query.trim())}`;
+    console.log('검색 API 호출:', url);
+    
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      cache: 'no-store',
+    });
+    
+    console.log('API 응답 상태:', response.status, response.statusText);
 
     if (!response.ok) {
       let errorMessage = "뉴스 검색에 실패했습니다.";

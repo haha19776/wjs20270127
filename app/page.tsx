@@ -54,6 +54,7 @@ export default function Home() {
       return;
     }
 
+    console.log('검색 시작:', searchQuery.trim());
     setIsSearching(true);
     setError(null);
     setArticles([]);
@@ -68,7 +69,9 @@ export default function Home() {
     setChatMessages((prev) => [...prev, userMessage]);
 
     try {
+      console.log('searchNews 함수 호출 중...');
       const fetchedArticles = await searchNews(searchQuery.trim());
+      console.log('검색 결과:', fetchedArticles.length, '개');
 
       if (fetchedArticles.length === 0) {
         const noResultMessage: ChatMessage = {
