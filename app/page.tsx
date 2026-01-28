@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Article, ChatMessage } from "@/app/types";
 import { searchNews, summarizeNews, ApiError } from "@/app/utils/api";
+import { saveSearchHistory } from "@/app/lib/supabaseClient";
 import SearchBar from "@/app/components/SearchBar";
 import NewsList from "@/app/components/NewsList";
 import ChatArea from "@/app/components/ChatArea";
@@ -85,6 +86,9 @@ export default function Home() {
       }
 
       setArticles(fetchedArticles);
+
+      // Supabase에 검색 기록 저장
+      saveSearchHistory(searchQuery.trim(), fetchedArticles.length);
 
       // 검색 결과 메시지 추가
       const resultMessage: ChatMessage = {
