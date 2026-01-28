@@ -4,24 +4,31 @@
  * 검색 키워드 기록을 저장하기 위한 Supabase 연동
  */
 
-import { createClient } from "@supabase/supabase-js";
+import { createClient, SupabaseClient } from "@supabase/supabase-js";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
 
 // 디버깅용 로그
 console.log("=== Supabase 설정 확인 ===");
 console.log("SUPABASE_URL 설정됨:", !!supabaseUrl);
 console.log("SUPABASE_ANON_KEY 설정됨:", !!supabaseAnonKey);
 
-if (!supabaseUrl || !supabaseAnonKey) {
-  console.warn("⚠️ Supabase 환경 변수가 설정되지 않았습니다.");
+let supabase: SupabaseClient | null = null;
+
+// URL과 Key가 유효한 경우에만 클라이언트 생성
+if (supabaseUrl && supabaseAnonKey && supabaseUrl.startsWith("https://")) {
+  try {
+    supabase = createClient(supabaseUrl, supabaseAnonKey);
+    console.log("✅ Supabase 클라이언트 생성 성공");
+  } catch (error) {
+    console.error("❌ Supabase 클라이언트 생성 실패:", error);
+  }
+} else {
+  console.warn("⚠️ Supabase 환경 변수가 올바르지 않습니다.");
 }
 
-export const supabase = createClient(
-  supabaseUrl || "",
-  supabaseAnonKey || ""
-);
+export { supabase };
 
 /**
  * 검색 기록 타입 정의
@@ -44,8 +51,8 @@ export async function saveSearchHistory(
   console.log("키워드:", keyword);
   console.log("결과 수:", resultCount);
   
-  if (!supabaseUrl || !supabaseAnonKey) {
-    console.warn("⚠️ Supabase가 설정되지 않아 검색 기록을 저장하지 않습니다.");
+  if (!supabase) {
+    console.warn("⚠️ Supabase 클라이언트가 초기화되지 않아 검색 기록을 저장하지 않습니다.");
     return;
   }
 
@@ -74,7 +81,7 @@ export async function saveSearchHistory(
 export async function getRecentSearchHistory(
   limit: number = 10
 ): Promise<SearchHistory[]> {
-  if (!supabaseUrl || !supabaseAnonKey) {
+  if (!supabase) {
     return [];
   }
 
